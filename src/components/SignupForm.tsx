@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
+import instance from "../api/api";
 
 function SignupForm() {
   const [formData, setFormData] = useState({
@@ -18,9 +20,26 @@ function SignupForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    try {
+      const response = await instance.post("/register", {
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+      });
+      console.log(response.data);
+      alert("Registration successful");
+    } catch (error) {
+      console.error(error);
+      alert("Registration failed");
+    }
   };
   return (
     <div className="w-full rounded-lg border p-4 px-8 xl:w-1/2">

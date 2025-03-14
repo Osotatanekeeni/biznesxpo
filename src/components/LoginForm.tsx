@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import instance from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -14,9 +17,20 @@ function LoginForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const response = await instance.post("/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      console.log(response.data);
+      alert("Login successful");
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+      alert("Login failed");
+    }
   };
   return (
     <div className="w-full rounded-lg border p-4 px-8 xl:w-1/2">
