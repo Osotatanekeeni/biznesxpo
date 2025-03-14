@@ -2,17 +2,6 @@ import React, { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 import colorPallete from "../assets/color-pallette.json";
 
-/**
- * Text Group 1: First name, role, phone number and email
- * Text Group 2: Last name, address
- * Text Group 3: First word of company name and subsequent words except second word
- * Text Group 4: Second word of company name
- * frontBackgroundColor
- * backBackgroundColor
- * unFilledCircleColor
- * filledCircleColor
- *
- */
 // Create Context for Color Management
 const ColorContext = createContext({
   textGroup1Color: "#7c7b89",
@@ -44,23 +33,43 @@ const ColorContext = createContext({
   ],
   setSelectedColors: (colors: string[][]) => {},
 });
+
+const CardDataContext = createContext({
+  cardData: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    position: "",
+    brandName: "",
+    address: "",
+  },
+  setCardData: (data: any) => {},
+});
+export const useCardData = () => useContext(CardDataContext);
 export const useColor = () => useContext(ColorContext);
+
+const CardDataProvider = ({ children }: any) => {
+  const [cardData, setCardData] = useState({
+    firstName: "Osotatanekeeni",
+    lastName: "Kari",
+    email: "tatanekari52@gmail.com",
+    phoneNumber: "09022211724",
+    position: "Software Developer",
+    brandName: "Tats Special Forces",
+    address: "5 Harstrup Road, Eligbam-Orazi, River State, Nigeria",
+  });
+  return (
+    <CardDataContext.Provider value={{ cardData, setCardData }}>
+      {children}
+    </CardDataContext.Provider>
+  );
+};
 
 const getRandomColors = (palette: string[][]) => {
   const colorCombo = palette.filter((combo) => combo.length === 7).slice(0, 7);
   return colorCombo;
 };
-
-/**
- *
- * Colors I need
- *  - Card Front Background
- *  - Card Back Background
- *  - Firstname == role == phone number == email
- *  - Lastname == address
- *  - First word in company name and subsequent words except the second word
- *  - Second work in company name
- */
 
 const SplitBrandName = ({
   text,
@@ -73,7 +82,7 @@ const SplitBrandName = ({
 }) => {
   return (
     <h2
-      className="text-center text-3xl font-bold"
+      className="z-10 text-center text-3xl font-bold"
       style={{ color: firstColor }}
     >
       {text
@@ -248,7 +257,7 @@ const BusinessCard = () => {
     filledCircleColor,
     unFilledCircleColor,
   } = useColor();
-  const { selectedColors } = useContext(ColorContext);
+  const { cardData } = useCardData();
 
   return (
     <div className="flex h-3/4 w-1/2 flex-col items-center gap-8 p-4">
@@ -258,26 +267,28 @@ const BusinessCard = () => {
         <div className="flex size-full flex-col justify-between p-2">
           <div className="flex w-full flex-col gap-2">
             <h2
-              className="flex flex-col text-4xl font-bold"
+              className="z-10 flex flex-col text-4xl font-bold"
               style={{ color: textGroup1Color }}
             >
-              Bode Tats
-              <span style={{ color: textGroup2Color }}> Chris</span>
+              {cardData.firstName}
+              <span style={{ color: textGroup2Color }}>
+                {" "}
+                {cardData.lastName}
+              </span>
             </h2>
             <p
-              className="text-lg font-medium"
+              className="z-10 text-lg font-medium"
               style={{ color: textGroup1Color }}
             >
-              Product Designer
+              {cardData.position}
             </p>
           </div>
-          <div className="flex justify-end text-right">
+          <div className="z-10 flex justify-end text-right">
             <div className="w-2/4">
-              <p style={{ color: textGroup1Color }}>0902 221 1724</p>
-              <p style={{ color: textGroup1Color }}>bodilum@gmail.com</p>
-              <p className="text-sm" style={{ color: textGroup2Color }}>
-                This is a random place but I want it to be long so that we can
-                test the placement of the text on the card
+              <p style={{ color: textGroup1Color }}>{cardData.phoneNumber}</p>
+              <p style={{ color: textGroup1Color }}>{cardData.email}</p>
+              <p className="z-10 text-sm" style={{ color: textGroup2Color }}>
+                {cardData.address}
               </p>
             </div>
           </div>
@@ -289,11 +300,121 @@ const BusinessCard = () => {
         <CardBackLeftCircle bgColor={filledCircleColor} />
         <CardBackRightCircle bgColor={filledCircleColor} />
         <SplitBrandName
-          text="Tats Special Forces"
+          text={cardData.brandName}
           firstColor={textGroup3Color}
           secondColor={textGroup4Color}
         />
       </CardBack>
+    </div>
+  );
+};
+
+const Editor = () => {
+  const { cardData, setCardData } = useCardData();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCardData({
+      ...cardData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log(cardData);
+  };
+  return (
+    <div>
+      {/* Header */}
+      <div></div>
+
+      {/* Form section */}
+      <div>
+        <ColorSelector />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-col">
+            <label className="font-medium">First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              className="rounded-lg border-gray-300"
+              value={cardData.firstName}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              className="rounded-lg border-gray-300"
+              value={cardData.lastName}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Email:</label>
+            <input
+              type="email"
+              name="email"
+              className="rounded-lg border-gray-300"
+              value={cardData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Phone Number:</label>
+            <input
+              type="tel"
+              name="phoneNumber"
+              className="rounded-lg border-gray-300"
+              value={cardData.phoneNumber}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Brand Name:</label>
+            <input
+              type="text"
+              name="brandName"
+              className="rounded-lg border-gray-300"
+              value={cardData.brandName}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Address:</label>
+            <input
+              type="text"
+              name="address"
+              className="rounded-lg border-gray-300"
+              value={cardData.address}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Position:</label>
+            <input
+              type="text"
+              name="position"
+              className="rounded-lg border-gray-300"
+              value={cardData.position}
+              onChange={handleChange}
+            />
+          </div>
+          <button
+            className="rounded-xl bg-black p-2 text-white hover:border-2 hover:border-black hover:bg-white hover:text-black"
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+
+      {/*  Footer */}
+      <div></div>
     </div>
   );
 };
@@ -343,32 +464,34 @@ const ColorSelector = () => {
 
   return (
     <div>
-      <h3>Select Primary Color:</h3>
-      {selectedColors.map((color) => (
-        <button
-          key={color[0]}
-          style={{
-            backgroundColor: color[0],
-            margin: "5px",
-            color: color[0],
-            // border: `2px solid ${color}`,
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-          }}
-          onClick={() =>
-            assignColors(
-              color[0],
-              color[1],
-              color[2],
-              color[3],
-              color[4],
-              color[5],
-              color[6],
-            )
-          }
-        ></button>
-      ))}
+      <h3 className="font-bold">Brand Colors</h3>
+      <div className="flex gap-2">
+        {selectedColors.map((color) => (
+          <button
+            key={color[0]}
+            style={{
+              backgroundColor: color[0],
+              margin: "5px",
+              color: color[0],
+              border: `2px solid ${color[0]}`,
+              width: "30px",
+              height: "30px",
+              borderRadius: "20%",
+            }}
+            onClick={() =>
+              assignColors(
+                color[0],
+                color[1],
+                color[2],
+                color[3],
+                color[4],
+                color[5],
+                color[6],
+              )
+            }
+          ></button>
+        ))}
+      </div>
     </div>
   );
 };
@@ -377,18 +500,21 @@ const ColorSelector = () => {
 const App = () => {
   return (
     <ColorProvider>
-      <div
-        className=" flex h-screen items-center justify-center gap-20 border-2"
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "column",
-        //   alignItems: "center",
-        //   marginTop: "50px",
-        // }}
-      >
-        <BusinessCard />
-        <ColorSelector />
-      </div>
+      <CardDataProvider>
+        <div
+          className=" flex h-screen items-center justify-center gap-20 border-2"
+          // style={{
+          //   display: "flex",
+          //   flexDirection: "column",
+          //   alignItems: "center",
+          //   marginTop: "50px",
+          // }}
+        >
+          <BusinessCard />
+          {/* <ColorSelector /> */}
+          <Editor />
+        </div>
+      </CardDataProvider>
     </ColorProvider>
   );
 };
