@@ -9,7 +9,7 @@ export const SplitBrandName = ({
 }) => {
   return (
     <h2
-      className="z-10 text-center text-3xl font-bold"
+      className="text-center text-3xl font-bold"
       style={{ color: firstColor }}
     >
       {text

@@ -1,6 +1,3 @@
-import React, { createContext, useContext, useState } from "react";
-import styled from "styled-components";
-import colorPallete from "../assets/color-pallette.json";
 import {
   CardFront,
   CardBack,
@@ -14,12 +11,7 @@ import {
 import { useCardData, CardDataProvider } from "../contexts/CardDataContext";
 import { useColor, ColorProvider } from "../contexts/ColorContext";
 import { SplitBrandName } from "../utils/SplitBrandName";
-import { ColorSelector } from "./ColorSelector";
 import { Editor } from "./Editor";
-
-// Create Context for Color Management
-
-// Styled Business Card Component
 
 const BusinessCard = () => {
   const {
@@ -42,7 +34,7 @@ const BusinessCard = () => {
         <div className="flex size-full flex-col justify-between p-2">
           <div className="flex w-full flex-col gap-2">
             <h2
-              className="z-10 flex flex-col text-4xl font-bold"
+              className="flex flex-col text-4xl font-bold"
               style={{ color: textGroup1Color }}
             >
               {cardData.firstName}
@@ -52,17 +44,17 @@ const BusinessCard = () => {
               </span>
             </h2>
             <p
-              className="z-10 text-lg font-medium"
+              className="text-lg font-medium"
               style={{ color: textGroup1Color }}
             >
               {cardData.position}
             </p>
           </div>
-          <div className="z-10 flex justify-end text-right">
+          <div className="flex justify-end text-right">
             <div className="w-2/4">
               <p style={{ color: textGroup1Color }}>{cardData.phoneNumber}</p>
               <p style={{ color: textGroup1Color }}>{cardData.email}</p>
-              <p className="z-10 text-sm" style={{ color: textGroup2Color }}>
+              <p className="text-sm" style={{ color: textGroup2Color }}>
                 {cardData.address}
               </p>
             </div>

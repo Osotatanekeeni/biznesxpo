@@ -1,8 +1,12 @@
+import React, { Suspense, useState } from "react";
 import { useCardData } from "../contexts/CardDataContext";
+// import ColorPaletteModal from "./ColorPaletteModal";
 import { ColorSelector } from "./ColorSelector";
 
+const ColorPaletteModal = React.lazy(() => import("./ColorPaletteModal"));
 export const Editor = () => {
   const { cardData, setCardData } = useCardData();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,10 +25,20 @@ export const Editor = () => {
     <div>
       {/* Header */}
       <div></div>
-
+      <Suspense fallback={<div>Loading...</div>}>
+        {isModalOpen && (
+          <ColorPaletteModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+      </Suspense>
       {/* Form section */}
       <div>
         <ColorSelector />
+        <button onClick={() => setIsModalOpen(true)}>
+          Show Color Palettes
+        </button>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col">
             <label className="font-medium">First Name:</label>
