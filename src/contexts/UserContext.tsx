@@ -6,8 +6,8 @@ interface UserState {
 }
 
 interface UserAction {
-  type: "SET_USER";
-  payload: UserState;
+  type: "SET_USER" | "LOGOUT";
+  payload?: UserState;
 }
 
 const initialState: UserState = {
@@ -29,10 +29,12 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
     case "SET_USER":
       return {
         ...state,
-        email: action.payload.email,
-        token: action.payload.token,
-        userId: action.payload.userId,
+        email: action.payload?.email || "",
+        token: action.payload?.token || "",
+        userId: action.payload?.userId || "",
       };
+    case "LOGOUT":
+      return initialState;
     default:
       return state;
   }

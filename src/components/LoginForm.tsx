@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import instance from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import { Loader } from "./Loader";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function LoginForm() {
   });
   const navigate = useNavigate();
   const { dispatch } = useContext(UserContext);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,6 +23,7 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoggingIn(true);
     try {
       const response = await instance.post("/login", {
         email: formData.email,
@@ -35,6 +38,7 @@ function LoginForm() {
       navigate("/home");
     } catch (error) {
       console.error(error);
+      setIsLoggingIn(false);
       alert("Login failed");
     }
   };
@@ -68,7 +72,7 @@ function LoginForm() {
           className="w-full rounded-lg border bg-black p-2 text-white hover:border-2 hover:border-black hover:bg-white hover:text-black"
           type="submit"
         >
-          Login
+          {isLoggingIn ? <Loader size="sm" /> : "Login"}
         </button>
       </form>
     </div>

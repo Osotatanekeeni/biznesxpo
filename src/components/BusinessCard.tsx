@@ -81,7 +81,7 @@ const App = () => {
   return (
     <ColorProvider>
       <CardDataProvider>
-        <div className=" flex h-screen items-center justify-center gap-20 border-2">
+        <div className=" flex h-screen items-center justify-center gap-20">
           <BusinessCard />
           <Editor />
         </div>
