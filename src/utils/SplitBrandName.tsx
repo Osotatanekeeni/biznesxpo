@@ -13,7 +13,7 @@ export const SplitBrandName = ({
       style={{ color: firstColor }}
     >
       {text
-        .toUpperCase()
+        ?.toUpperCase()
         .split(" ")
         .map((word, index) => (
           <span

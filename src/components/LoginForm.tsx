@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import instance from "../api/api";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ function LoginForm() {
     password: "",
   });
   const navigate = useNavigate();
+  const { dispatch } = useContext(UserContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,8 +26,12 @@ function LoginForm() {
         email: formData.email,
         password: formData.password,
       });
-      console.log(response.data);
+
       alert("Login successful");
+      const { email, token, userId } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+      dispatch({ type: "SET_USER", payload: { email, token, userId } });
       navigate("/home");
     } catch (error) {
       console.error(error);

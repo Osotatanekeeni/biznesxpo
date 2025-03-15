@@ -1,7 +1,7 @@
 import styled from "styled-components";
 export const CardFront = styled.div<{ bgColor: string }>`
-  width: 90%;
-  min-width: 90%;
+  width: 60%;
+  min-width: 60%;
   overflow: hidden;
   height: 55%;
   border-radius: 8px;
@@ -17,7 +17,7 @@ export const CardFront = styled.div<{ bgColor: string }>`
 `;
 
 export const CardBack = styled.div<{ bgColor: string }>`
-  width: 90%;
+  width: 60%;
   height: 55%;
   overflow: hidden;
   border-radius: 8px;
