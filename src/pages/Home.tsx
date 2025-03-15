@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import BusinessCard from "../components/BusinessCard";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
-import Chart from "../components/Chart";
+import { Linechart, Barchart, Piechart } from "../components/Chart";
 
 function Home() {
   const { state: userState, dispatch } = useContext(UserContext);
@@ -25,7 +25,9 @@ function Home() {
         </button>
       </div>
       <BusinessCard />
-      <Chart />
+      <Linechart />
+      <Barchart />
+      <Piechart />
     </div>
   );
 }
