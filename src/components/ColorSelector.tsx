@@ -39,27 +39,27 @@ export const ColorSelector = () => {
       <div className="flex gap-2">
         {selectedColors.map((color) => (
           <button
-            key={color[0]}
+            key={color}
             style={{
-              backgroundColor: color[0],
+              backgroundColor: color,
               margin: "5px",
-              color: color[0],
-              border: `2px solid ${color[0]}`,
+              color: color,
+              border: `2px solid ${color}`,
               width: "30px",
               height: "30px",
               borderRadius: "20%",
             }}
-            onClick={() =>
-              assignColors(
-                color[0],
-                color[1],
-                color[2],
-                color[3],
-                color[4],
-                color[5],
-                color[6],
-              )
-            }
+            // onClick={() =>
+            //   assignColors(
+            //     color[0],
+            //     color[1],
+            //     color[2],
+            //     color[3],
+            //     color[4],
+            //     color[5],
+            //     color[6],
+            //   )
+            // }
           ></button>
         ))}
       </div>

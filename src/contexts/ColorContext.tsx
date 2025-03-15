@@ -19,45 +19,41 @@ const ColorContext = createContext({
   setUnFilledCircleColor: (color: string) => {},
   setFilledCircleColor: (color: string) => {},
   selectedColors: [
-    [
-      "#8B0000",
-      "#A97D7D",
-      "#5C6B75",
-      "#6B5C6B",
-      "#C2A8A8",
-      "#FFFFFF",
-      "#000000",
-    ],
+    "#8B0000",
+    "#A97D7D",
+    "#5C6B75",
+    "#6B5C6B",
+    "#C2A8A8",
+    "#FFFFFF",
+    "#000000",
   ],
-  setSelectedColors: (colors: string[][]) => {},
+  setSelectedColors: (colors: string[]) => {},
 });
 export const useColor = () => useContext(ColorContext);
 
 const getRandomColors = (palette: string[][]) => {
   const colorCombo = palette.filter((combo) => combo.length === 7).slice(0, 7);
-  return colorCombo;
+  return colorCombo[1];
 };
 
 export const ColorProvider = ({ children }: any) => {
   const [selectedColors, setSelectedColors] = useState(
     getRandomColors(colorPallete),
   );
-  const [textGroup1Color, setTextGroup1Color] = useState(selectedColors[0][0]);
-  const [textGroup2Color, setTextGroup2Color] = useState(selectedColors[0][1]);
-  const [textGroup3Color, setTextGroup3Color] = useState(selectedColors[0][2]);
-  const [textGroup4Color, setTextGroup4Color] = useState(selectedColors[0][3]);
+  const [textGroup1Color, setTextGroup1Color] = useState(selectedColors[0]);
+  const [textGroup2Color, setTextGroup2Color] = useState(selectedColors[1]);
+  const [textGroup3Color, setTextGroup3Color] = useState(selectedColors[2]);
+  const [textGroup4Color, setTextGroup4Color] = useState(selectedColors[3]);
   const [frontBackgroundColor, setFrontBackgroundColor] = useState(
-    selectedColors[0][4],
+    selectedColors[4],
   );
   const [backBackgroundColor, setBackBackgroundColor] = useState(
-    selectedColors[0][5],
+    selectedColors[5],
   );
   const [unFilledCircleColor, setUnFilledCircleColor] = useState(
-    selectedColors[0][6],
+    selectedColors[6],
   );
-  const [filledCircleColor, setFilledCircleColor] = useState(
-    selectedColors[0][7],
-  );
+  const [filledCircleColor, setFilledCircleColor] = useState(selectedColors[7]);
 
   return (
     <ColorContext.Provider

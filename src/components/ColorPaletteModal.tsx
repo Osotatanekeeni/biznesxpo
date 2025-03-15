@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { FixedSizeList as List } from "react-window";
 import colorPallete from "../assets/color-pallette.json";
+import { useColor } from "../contexts/ColorContext";
 
 const isLightColor = (color: string) => {
   const hex = color.replace("#", "");
@@ -37,6 +38,7 @@ const Palette = styled.div`
   display: flex;
   flex-direction: column;
   width: 30%;
+  cursor: pointer;
   gap: 10;
   border: 1px solid #ccc;
   padding: 4px;
@@ -87,6 +89,27 @@ const Row = ({
 }) => {
   const startIndex = index * 3;
   const palettes = colorPallete.slice(startIndex, startIndex + 3);
+  const {
+    setTextGroup1Color,
+    setTextGroup2Color,
+    setTextGroup3Color,
+    setTextGroup4Color,
+    setUnFilledCircleColor,
+    setFilledCircleColor,
+    setBackBackgroundColor,
+    setFrontBackgroundColor,
+  } = useColor();
+
+  const updateColors = (palette: any) => {
+    setTextGroup1Color(palette[5]);
+    setTextGroup2Color(palette[1]);
+    setTextGroup3Color(palette[0]);
+    setTextGroup4Color(palette[3]);
+    setUnFilledCircleColor(palette[0]);
+    setFilledCircleColor(palette[5]);
+    setFrontBackgroundColor(palette[4]);
+    setBackBackgroundColor(palette[1]);
+  };
 
   return (
     <div
@@ -94,7 +117,10 @@ const Row = ({
       //   style={{ ...style, display: "flex", gap: "20px" }}
     >
       {palettes.map((palette, paletteIndex) => (
-        <Palette key={startIndex + paletteIndex}>
+        <Palette
+          key={startIndex + paletteIndex}
+          onClick={() => updateColors(palette)}
+        >
           {palette.map((color, colorIndex) => (
             <ColorBox
               key={colorIndex}

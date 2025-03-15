@@ -62,7 +62,7 @@ const BusinessCard = () => {
         </div>
       </CardFront>
       <CardBack bgColor={backBackgroundColor}>
-        <CardBackTopCircle bgColor={filledCircleColor} />
+        <CardBackTopCircle bgColor={unFilledCircleColor} />
         <CardBackBottomCircle bgColor={unFilledCircleColor} />
         <CardBackLeftCircle bgColor={filledCircleColor} />
         <CardBackRightCircle bgColor={filledCircleColor} />
