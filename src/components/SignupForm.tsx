@@ -27,7 +27,7 @@ function SignupForm() {
       return;
     }
     try {
-      const response = await instance.post("/register", {
+      const response = await instance.post("api/v1/users/register", {
         email: formData.email,
         password: formData.password,
         firstName: formData.firstName,
